@@ -1,4 +1,3 @@
-```markdown
 # 🤖 Repo-Fixer: Automated Self-Healing CLI Engine
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -41,53 +40,6 @@ This tool is specifically optimized for **Termux** (Android mobile shell) and li
 ```bash
 pkg update && pkg install python git -y
 pip install google-genai openai
-```
-
-2. **Set API Keys**:
-```bash
-export GEMINI_API_KEY="your_key"
-export DEEPSEEK_API_KEY="your_key"
-export OPENAI_API_KEY="your_key"
-```
-
-3. **Run**:
-```bash
-git clone https://github.com/apiload5/repo-fixer/
-cd repo-fixer
-python main.py
-```
-
-### اردو 🇵🇰
-
-1. **ریکوائرمنٹس سیٹ اپ** - Termux یا Linux Terminal میں یہ کمانڈز چلائیں:
-```bash
-pkg update && pkg install python git -y
-pip install google-genai openai
-```
-
-2. **API Keys سیٹ کریں**:
-```bash
-export GEMINI_API_KEY="your_key"
-export DEEPSEEK_API_KEY="your_key"
-export OPENAI_API_KEY="your_key"
-```
-
-3. **چلائیں**:
-```bash
-git clone https://github.com/apiload5/repo-fixer/
-cd repo-fixer
-python main.py
-```
-
----
-
-## 💰 Cost Estimate
-
-| English | اردو |
-|---------|------|
-| With DeepSeek V4 Flash, 1 full repo scan costs ∼$0.02 | DeepSeek V4 Flash کے ساتھ 1 مکمل Scan کی لاگت ∼$0.02 ہے |
-
----
 
 ## ⚠️ Disclaimer
 
@@ -119,7 +71,7 @@ git add README.md main.py tokens_state.json repo_config.json
 git commit -m "Release: Repo-Fixer v2.1 - Bilingual README Added"
 git push origin main
 ```
-```
 
----
+
+
 
