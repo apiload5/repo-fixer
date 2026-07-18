@@ -2,7 +2,7 @@ import os
 import json
 import datetime
 import subprocess
-from google import genai
+import google.generativeai as genai # CHANGED
 from openai import OpenAI
 
 # 1. SETTINGS & PERSISTENCE WITH AUTO-RESET DATE
@@ -18,8 +18,7 @@ def load_tokens():
         try:
             with open(TOKEN_FILE, "r") as f:
                 data = json.load(f)
-                # OPTIONAL FIX 1: Naya din ho to foran tokens zero karke state save karein
-                if data.get("date") != get_today_string():
+                if data.get("date")!= get_today_string():
                     save_tokens(0)
                     return 0
                 return data.get("used", 0)
@@ -44,14 +43,14 @@ def save_repo_path(path):
     with open(CONFIG_FILE, "w") as f:
         json.dump({"last_used_path": path}, f)
 
-# 2. SECURE GIT EXECUTION ARRAY (No shell injection possible)
+# 2. SECURE GIT EXECUTION ARRAY
 def run_git_command(args_list, repo_path):
     try:
         result = subprocess.run(
-            args_list, 
-            cwd=repo_path, 
-            stdout=subprocess.PIPE, 
-            stderr=subprocess.PIPE, 
+            args_list,
+            cwd=repo_path,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
             text=True,
             shell=False
         )
@@ -59,14 +58,12 @@ def run_git_command(args_list, repo_path):
     except Exception as e:
         return False, str(e)
 
-# 3. SECURE REPOSITORY SCANNER WITH TOKEN SAFEGUARD
+# 3. SECURE REPOSITORY SCANNER
 def build_secure_repo_tree(root_dir):
     tree = {}
     ignored = ["node_modules", "vendor", ".next", "venv", "__pycache__", ".git", "storage", "dist"]
     extensions = (".js", ".jsx", ".ts", ".tsx", ".php", ".py", ".json", ".txt", ".env.example")
-    
-    # BONUS FIX: 5000 characters limit lagayi taake token waste na ho aur AI focus rahe
-    MAX_CHAR_LIMIT = 5000 
+    MAX_CHAR_LIMIT = 5000
 
     for base, _, files in os.walk(root_dir):
         if any(x in base for x in ignored):
@@ -77,7 +74,6 @@ def build_secure_repo_tree(root_dir):
                 rel = os.path.relpath(p, root_dir)
                 try:
                     with open(p, "r", encoding="utf-8") as f:
-                        # Sirf pehle 5000 characters read karein taake massive logs include na hon
                         tree[rel] = f.read()[:MAX_CHAR_LIMIT]
                 except:
                     pass
@@ -86,58 +82,54 @@ def build_secure_repo_tree(root_dir):
 # 4. CORE ENGINE PIPELINE
 def main():
     print("=============================================")
-    print("💎 AI REPOSITORY SELF-HEALING ENGINE (GOLD STANDARD)")
+    print("💎 AI REPOSITORY SELF-HEALING ENGINE (TERMUX FIXED)")
     print("=============================================\n")
 
     last_path = load_saved_repo()
     repo_path = ""
 
     if last_path:
-        print(f"🔄 Last worked repository workspace:\n   -> {last_path}")
+        print(f"🔄 Last worked repository workspace:\n -> {last_path}")
         choice = input("Kya aap isi repository ko scan karna chahte hain? (y/n): ").strip().lower()
         if choice == 'y':
             repo_path = last_path
-            
+
     if not repo_path:
         repo_path = input("\n📁 Enter repository local absolute path:\n(e.g., /data/data/com.termux/files/home/daily-markeet-main): ").strip()
         repo_path = os.path.abspath(repo_path)
-        
+
     if not os.path.exists(repo_path) or not os.path.isdir(repo_path):
         print("❌ Error: Valid directory path nahi mil saka.")
         return
 
     save_repo_path(repo_path)
 
-    # Dynamic Branch Detection
     branch_success, current_branch = run_git_command(["git", "rev-parse", "--abbrev-ref", "HEAD"], repo_path)
     if not branch_success:
         print("❌ Error: Directory context me valid git repository setup nahi mila.")
         return
     print(f"🌿 Current Working Branch: '{current_branch}'")
 
-    # Choose Provider
     print("\n🤖 Select AI Architecture:")
-    print("1. Gemini 2.5 Flash")
+    print("1. Gemini 2.0 Flash")
     print("2. ChatGPT (GPT-4o-mini)")
     print("3. DeepSeek Chat")
     provider_choice = input("Option (1/2/3): ").strip()
-    
+
     provider_map = {"1": "gemini", "2": "chatgpt", "3": "deepseek"}
     provider = provider_map.get(provider_choice, "gemini")
 
-    # Git Pull
     print(f"\n📥 Remote changes sync ho rahi hain...")
     success, log = run_git_command(["git", "pull", "origin", current_branch], repo_path)
     if not success:
         print(f"⚠️ Warning: Sync issues ya modified unstaged files ho sakti hain:\n{log}")
         cont = input("Kya aap isi state ke sath continue karna chahte hain? (y/n): ").strip().lower()
-        if cont != 'y': return
+        if cont!= 'y': return
 
-    # Automated Safe Commit Backup Point
     print("\n📦 AI modifications se pehle rollback checkpoint build kiya ja raha hai...")
     _, status_log = run_git_command(["git", "status", "--porcelain"], repo_path)
     has_dirty_files = bool(status_log.strip())
-    
+
     backup_created = False
     if has_dirty_files:
         run_git_command(["git", "add", "."], repo_path)
@@ -145,7 +137,6 @@ def main():
         backup_created = True
         print("✅ Safe Backup Checkpoint created successfully.")
 
-    # Parsing Repo Tree Mapping
     print("\n🔍 Extracting architecture snapshot maps...")
     snapshot = build_secure_repo_tree(repo_path)
     snapshot_str = json.dumps(snapshot, indent=2)
@@ -182,17 +173,19 @@ Repository Layout Snapshot:
         if provider == "gemini":
             gemini_key = os.getenv("GEMINI_API_KEY")
             if not gemini_key: raise ValueError("GEMINI_API_KEY environment configuration setting array is empty!")
-            c = genai.Client(api_key=gemini_key)
-            res = c.models.generate_content(model="gemini-2.5-flash", contents=prompt)
+            genai.configure(api_key=gemini_key) # CHANGED
+            model = genai.GenerativeModel('gemini-2.0-flash') # CHANGED
+            res = model.generate_content(prompt) # CHANGED
             raw_res = res.text
-            if res.usage_metadata: tokens_used_today += res.usage_metadata.total_token_count
-            
+            if res.usage_metadata:
+                tokens_used_today += res.usage_metadata.prompt_token_count + res.usage_metadata.candidates_token_count # CHANGED
+
         elif provider == "chatgpt":
             c = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
             res = c.chat.completions.create(model="gpt-4o-mini", messages=[{"role": "user", "content": prompt}], response_format={"type": "json_object"})
             raw_res = res.choices[0].message.content
             tokens_used_today += res.usage.total_tokens
-            
+
         elif provider == "deepseek":
             c = OpenAI(api_key=os.getenv("DEEPSEEK_API_KEY"), base_url="https://api.deepseek.com")
             res = c.chat.completions.create(model="deepseek-chat", messages=[{"role": "user", "content": prompt}], response_format={"type": "json_object"})
@@ -201,11 +194,9 @@ Repository Layout Snapshot:
 
         save_tokens(tokens_used_today)
 
-        # JSON Parse and Markdown Extraction Block
         if raw_res.strip().startswith("```json"):
             raw_res = raw_res.split("```json")[1].split("```")[0].strip()
-            
-        # OPTIONAL FIX 2: AI JSON Parse crash hone par direct Rollback System execution
+
         try:
             data = json.loads(raw_res)
         except json.JSONDecodeError:
@@ -237,16 +228,14 @@ Repository Layout Snapshot:
         print(f"\n🛠️ Edits successfully apply ho chukay hain! System: {data.get('detected_ecosystem')}")
         print(f"📝 Identified Flaws: {data.get('structural_root_cause')}")
 
-        # Git Preview Render
         print("\n🔍 Modified changes preview (Git Diff):")
         print("-------------------------------------------------------------")
         _, diff_output = run_git_command(["git", "diff"], repo_path)
         print(diff_output if diff_output.strip() else "Structural edits rendered.")
         print("-------------------------------------------------------------")
 
-        # Push Decision Loop
         push_choice = input(f"\n🚀 Kya aap in fixes ko target origin/{current_branch} branch par push karna chahte hain? (y/n): ").strip().lower()
-        
+
         if push_choice == 'y':
             print("📤 Finalizing staging maps...")
             run_git_command(["git", "add", "."], repo_path)
