@@ -97,6 +97,19 @@ This architecture utility is open-source and free for development tracking optim
 - **Pull Requests**: https://github.com/apiload5/repo-fixer/pulls
 
 ---
+# 1. Direct terminal se requirements file create karein
+```
+cat << 'EOF' > requirements.txt
+google-genai>=0.1.1
+openai>=1.0.0
+pydantic>=2.0.0
+EOF
 
+# 2. GitHub par push karein
+git add requirements.txt
+git commit -m "chore: add production requirements.txt for dependencies"
+git push origin main
+```
+------
 
 
