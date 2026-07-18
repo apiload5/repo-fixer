@@ -59,7 +59,9 @@ When prompted, enter your repo path:
 ```
 /data/data/com.termux/files/home/repository
 ```
-📁 How It Works
+## 📁 How It Works
+
+```mermaid
 graph LR
     A[Scan Repository] --> B[Create Git Backup]
     B --> C[Group Files into Chunks]
@@ -67,4 +69,48 @@ graph LR
     D --> E[Parse Fixed Code]
     E --> F[Overwrite Files]
     F --> G[Optional Push to GitHub]
-    
+```
+
+1. **Backup**: Creates a git commit before making changes
+2. **Chunking**: Groups files into ∼80k character chunks
+3. **AI Fix**: Sends chunks to `gemini-2.0-flash` for bug fixing
+4. **Apply**: Parses response and overwrites files with fixed code
+5. **Push**: Optional auto push to origin/main
+
+   
+
+---
+
+## 🚀 Now let's create additional files for your repository:
+
+### 📃 LICENSE (MIT License)
+```markdown
+MIT License
+
+Copyright (c) 2026 Apiload5
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+👨‍💻 Author
+M Amir
+
+GitHub: @apiload5
+
+Project: repo-fixer
