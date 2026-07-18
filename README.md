@@ -30,8 +30,9 @@ This tool is specifically optimized for **Termux** (Android mobile shell) and li
 - 🔍 **لائیو Git Diff پریویو**: GitHub پر Push سے پہلے تمام تبدیلیاں دکھاتا ہے۔
 - ⏳ **ٹوکن کوٹہ پرسیسٹنس**: روزانہ کا استعمال `tokens_state.json` میں محفوظ اور نیا دن شروع ہوتے ہی Auto-Reset۔
 ```
-pkg update && pkg install python git -y
-pip install google-genai openai
+pip install google-generativeai openai requests
+export GEMINI_API_KEY="your_google_key"
+python repo-fixer.py
 ```
 
 **2. Set API Keys:**
