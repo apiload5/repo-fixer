@@ -49,7 +49,7 @@ pip install google-genai openai
 
 ---
 
-## 📝 License
+### 📝 License
 
 MIT © 2026 [apiload5](https://github.com/apiload5)
 
