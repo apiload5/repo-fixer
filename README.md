@@ -82,9 +82,11 @@ python main.py
 
 ---
 
+
 ## 📝 License
 
 MIT © 2026 [apiload5](https://github.com/apiload5)
+This architecture utility is open-source and free for development tracking optimization workloads. Keep your code running smooth, automatically!
 
 ---
 
