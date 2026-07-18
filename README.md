@@ -29,16 +29,51 @@ This tool is specifically optimized for **Termux** (Android mobile shell) and li
 - 🔄 **سیف رول بیک چیک پوائنٹ**: AI سے پہلے Backup Commit بناتا ہے۔ اگر AI فیل ہو یا آپ `n` دبائیں تو کوڈ واپس ریسٹور۔
 - 🔍 **لائیو Git Diff پریویو**: GitHub پر Push سے پہلے تمام تبدیلیاں دکھاتا ہے۔
 - ⏳ **ٹوکن کوٹہ پرسیسٹنس**: روزانہ کا استعمال `tokens_state.json` میں محفوظ اور نیا دن شروع ہوتے ہی Auto-Reset۔
-
-## 🛠️ Installation & Setup
-
-### English 🇬🇧
-
-1. **Requirements Setup** - Install in Termux or Linux terminal:
-```bash
+```
 pkg update && pkg install python git -y
 pip install google-genai openai
 ```
+
+**2. Set API Keys:**
+```
+export GEMINI_API_KEY="your_key"
+export DEEPSEEK_API_KEY="your_key"
+export OPENAI_API_KEY="your_key"
+```
+
+**3. Run:**
+```
+git clone https://github.com/apiload5/repo-fixer/
+cd repo-fixer
+python main.py
+```
+
+### اردو 🇵🇰
+
+**1. ریکوائرمنٹس سیٹ اپ** - Termux یا Linux Terminal میں یہ کمانڈز چلائیں:
+```
+export GEMINI_API_KEY="your_key"
+export DEEPSEEK_API_KEY="your_key"
+export OPENAI_API_KEY="your_key"
+```
+
+**3. چلائیں:**
+```
+git clone https://github.com/apiload5/repo-fixer/
+cd repo-fixer
+python main.py
+```
+
+---
+
+## 💰 Cost Estimate
+
+| English | اردو |
+|---------|------|
+| With DeepSeek V4 Flash, 1 full repo scan costs ∼$0.02 | DeepSeek V4 Flash کے ساتھ 1 مکمل Scan کی لاگت ∼$0.02 ہے |
+
+---
+
 ## ⚠️ Disclaimer
 
 > **English:** This tool overwrites files. A backup commit is always created first. Use at your own risk.
@@ -47,7 +82,7 @@ pip install google-genai openai
 
 ---
 
-### 📝 License
+## 📝 License
 
 MIT © 2026 [apiload5](https://github.com/apiload5)
 
@@ -55,9 +90,9 @@ MIT © 2026 [apiload5](https://github.com/apiload5)
 
 ## 🔗 Links
 
-- **Repository**: [https://github.com/apiload5/repo-fixer/](https://github.com/apiload5/repo-fixer/)
-- **Issues**: [Report a bug](https://github.com/apiload5/repo-fixer/issues)
-- **Pull Requests**: [Contribute](https://github.com/apiload5/repo-fixer/pulls)
+- **Repository**: https://github.com/apiload5/repo-fixer/
+- **Issues**: https://github.com/apiload5/repo-fixer/issues
+- **Pull Requests**: https://github.com/apiload5/repo-fixer/pulls
 
 ---
 
