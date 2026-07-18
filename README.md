@@ -61,24 +61,53 @@ When prompted, enter your repo path:
 ```
 ## 📁 How It Works
 
-```mermaid
-graph LR
-    A[Scan Repository] --> B[Create Git Backup]
-    B --> C[Group Files into Chunks]
-    C --> D[Send to Gemini 2.0 Flash]
-    D --> E[Parse Fixed Code]
-    E --> F[Overwrite Files]
-    F --> G[Optional Push to GitHub]
+### The Process Flow:
+
 ```
+┌─────────────────┐
+│  1. Scan        │
+│  Repository     │
+└────────┬────────┘
+         ▼
+┌─────────────────┐
+│  2. Create      │
+│  Git Backup     │
+└────────┬────────┘
+         ▼
+┌─────────────────┐
+│  3. Group Files │
+│  into Chunks    │
+└────────┬────────┘
+         ▼
+┌─────────────────┐
+│  4. Send to     │
+│  Gemini 2.0     │
+│  Flash          │
+└────────┬────────┘
+         ▼
+┌─────────────────┐
+│  5. Parse       │
+│  Fixed Code     │
+└────────┬────────┘
+         ▼
+┌─────────────────┐
+│  6. Overwrite   │
+│  Files          │
+└────────┬────────┘
+         ▼
+┌─────────────────┐
+│  7. Optional    │
+│  Push to GitHub │
+└─────────────────┘
+```
+
+### Step-by-Step Explanation:
 
 1. **Backup**: Creates a git commit before making changes
 2. **Chunking**: Groups files into ∼80k character chunks
 3. **AI Fix**: Sends chunks to `gemini-2.0-flash` for bug fixing
 4. **Apply**: Parses response and overwrites files with fixed code
 5. **Push**: Optional auto push to origin/main
-
-   
-
 ---
 
 ## 🚀 Now let's create additional files for your repository:
@@ -109,7 +138,7 @@ SOFTWARE.
 ```
 
 👨‍💻 Author
-M Amir
+[M Amir]
 
 GitHub: @apiload5
 
